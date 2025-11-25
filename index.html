@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OVA Geografía de Colombia</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #00bcd4, #4caf50);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Comic Sans MS', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .colombia {
+      font-size: 1.2em;
+      margin-top: -10px;
+      color: #ffeb3b;
+      text-shadow: 1px 1px 5px black;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+      width: 85%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 2s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    button {
+      background: #ff5722;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    button:hover {
+      background: #ff784e;
+      transform: scale(1.1);
+    }
+
+    .flag {
+      display: flex;
+      flex-direction: column;
+      width: 120px;
+      height: 80px;
+      border: 2px solid white;
+      margin: 20px auto;
+      animation: spin 5s linear infinite;
+    }
+
+    .flag div {
+      flex: 1;
+    }
+
+    .yellow { background: #ffeb3b; }
+    .blue { background: #0d47a1; }
+    .red { background: #b71c1c; }
+
+    @keyframes spin {
+      0% { transform: rotateY(0deg); }
+      50% { transform: rotateY(180deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9em;
+      color: #fff;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>¡Bienvenido al OVA!</h1>
+    <p class="colombia">Geografía de Colombia 🇨🇴</p>
+
+    <div class="flag">
+      <div class="yellow"></div>
+      <div class="blue"></div>
+      <div class="red"></div>
+    </div>
+
+    <p>Explora los niveles, aprende y demuestra cuánto sabes sobre nuestra hermosa Colombia.</p>
+
+    <button onclick="irANiveles()">Comenzar</button>
+  </div>
+
+  <footer>©️ 2025 - Proyecto educativo OVA | Hecho para primaria</footer>
+
+  <script>
+    function irANiveles() {
+      window.location.href = "niveles.html";
+    }
+  </script>
+</body>
+</html>

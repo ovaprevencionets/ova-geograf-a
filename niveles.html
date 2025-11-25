@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Niveles - OVA Geografía de Colombia 🇨🇴</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', sans-serif;
+      background: linear-gradient(135deg, #00BCD4, #4CAF50);
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      margin-top: 25px;
+      font-size: 2.2em;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .niveles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 15px;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 30px;
+    }
+
+    .nivel {
+      background: rgba(255, 255, 255, 0.25);
+      padding: 20px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      font-size: 1em;
+    }
+
+    .nivel:hover {
+      background: #ffeb3b;
+      color: #333;
+      transform: scale(1.1);
+    }
+
+    .pregunta-box {
+      display: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 25px;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 20px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+      animation: fadeIn 1s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    button {
+      background: #ff5722;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      margin: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    button:hover {
+      background: #ff784e;
+      transform: scale(1.05);
+    }
+
+    #resultado {
+      display: none;
+      background: rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 30px;
+      width: 85%;
+      max-width: 500px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+      animation: fadeIn 1s;
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 0.9em;
+      color: #fff;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌎 ¡Explora Colombia! 🇨🇴</h1>
+  <p>Elige un nivel para poner a prueba tus conocimientos 🧠✨</p>
+
+  <div class="niveles" id="menuNiveles">
+    <div class="nivel" onclick="iniciarNivel(1)">🗺️ Nivel 1<br>Regiones</div>
+    <div class="nivel" onclick="iniciarNivel(2)">🌊 Nivel 2<br>Ríos</div>
+    <div class="nivel" onclick="iniciarNivel(3)">🏅 Nivel 3<br>Símbolos Patrios</div>
+    <div class="nivel" onclick="iniciarNivel(4)">🏙️ Nivel 4<br>Ciudades</div>
+    <div class="nivel" onclick="iniciarNivel(5)">🖼️ Nivel 5<br>Imágenes</div>
+  </div>
+
+  <div id="preguntaBox" class="pregunta-box">
+    <h2 id="tituloNivel"></h2>
+    <p id="pregunta"></p>
+    <div id="opciones"></div>
+    <button id="siguienteBtn" onclick="siguientePregunta()">➡️ Siguiente</button>
+  </div>
+
+  <div id="resultado">
+    <h2>🎉 ¡Nivel completado! 🎉</h2>
+    <p id="puntajeFinal"></p>
+    <p id="respuestasCorrectas"></p>
+    <button onclick="volverMenu()">🏠 Volver al menú</button>
+  </div>
+
+  <footer>🌟 Proyecto OVA Educativo - Geografía de Colombia 🌟</footer>
+
+  <script>
+    const niveles = {
+      1: {
+        titulo: "🗺️ Regiones de Colombia",
+        preguntas: [
+          { q: "¿Cuántas regiones naturales tiene Colombia?", opciones: ["3️⃣", "5️⃣", "6️⃣"], correcta: "6️⃣" },
+          { q: "☕ ¿Cuál región es famosa por el café?", opciones: ["Pacífica", "Andina", "Orinoquía"], correcta: "Andina" },
+          { q: "🌳 ¿Dónde está la Amazonía?", opciones: ["Norte", "Sur", "Centro"], correcta: "Sur" },
+          { q: "🐎 ¿Qué región tiene llanuras extensas?", opciones: ["Caribe", "Orinoquía", "Andina"], correcta: "Orinoquía" },
+          { q: "🐚 ¿Cuál región está en la costa del Pacífico?", opciones: ["Pacífica", "Andina", "Caribe"], correcta: "Pacífica" }
+        ]
+      },
+      2: {
+        titulo: "🌊 Ríos de Colombia",
+        preguntas: [
+          { q: "💧 ¿Cuál es el río más largo de Colombia?", opciones: ["Magdalena", "Amazonas", "Cauca"], correcta: "Magdalena" },
+          { q: "🏙️ ¿Qué río pasa por Barranquilla?", opciones: ["Meta", "Magdalena", "Putumayo"], correcta: "Magdalena" },
+          { q: "⛰️ ¿Dónde nace el río Cauca?", opciones: ["Nariño", "Antioquia", "Huila"], correcta: "Huila" },
+          { q: "🦋 ¿Cuál río recorre la Orinoquía?", opciones: ["Meta", "Guaviare", "Amazonas"], correcta: "Meta" },
+          { q: "🌿 ¿Qué río forma parte de la frontera con Perú?", opciones: ["Putumayo", "Atrato", "Cesar"], correcta: "Putumayo" }
+        ]
+      },
+      3: {
+        titulo: "🏅 Símbolos Patrios",
+        preguntas: [
+          { q: "💛 ¿Qué color de la bandera representa la riqueza del suelo?", opciones: ["Amarillo", "Azul", "Rojo"], correcta: "Amarillo" },
+          { q: "🦅 ¿Qué animal aparece en el escudo?", opciones: ["Cóndor", "Jaguar", "Tucán"], correcta: "Cóndor" },
+          { q: "💙 ¿Qué simboliza el azul de la bandera?", opciones: ["Los ríos", "El cielo y los mares", "El oro"], correcta: "El cielo y los mares" },
+          { q: "❤️ ¿Qué representa el rojo?", opciones: ["La sangre derramada por la libertad", "El amor", "Las montañas"], correcta: "La sangre derramada por la libertad" },
+          { q: "🚩 ¿Cuántas franjas tiene la bandera de Colombia?", opciones: ["2", "3", "4"], correcta: "3" }
+        ]
+      },
+      4: {
+        titulo: "🏙️ Ciudades de Colombia",
+        preguntas: [
+          { q: "🌆 ¿Cuál es la capital de Colombia?", opciones: ["Medellín", "Bogotá", "Cali"], correcta: "Bogotá" },
+          { q: "🎭 ¿Dónde está el carnaval de Barranquilla?", opciones: ["Costa Caribe", "Región Andina", "Pacífica"], correcta: "Costa Caribe" },
+          { q: "😇 ¿Qué ciudad es conocida como la 'Sucursal del Cielo'?", opciones: ["Cali", "Pereira", "Cartagena"], correcta: "Cali" },
+          { q: "☕ ¿Dónde está el parque del Café?", opciones: ["Quindío", "Cundinamarca", "Tolima"], correcta: "Quindío" },
+          { q: "🎨 ¿En qué ciudad está la Comuna 13?", opciones: ["Medellín", "Bogotá", "Cali"], correcta: "Medellín" }
+        ]
+      },
+      5: {
+        titulo: "🖼️ Nivel de Imágenes",
+        preguntas: [
+          { q: "🦜 Este animal es símbolo de libertad en el escudo:", opciones: ["Cóndor", "Guacamaya", "Colibrí"], correcta: "Cóndor" },
+          { q: "🏞️ Este río divide el país en dos grandes regiones:", opciones: ["Magdalena", "Amazonas", "Cauca"], correcta: "Magdalena" },
+          { q: "🌋 Este volcán está en el sur de Colombia:", opciones: ["Nevado del Ruiz", "Galeras", "Puracé"], correcta: "Galeras" },
+          { q: "🏖️ Esta ciudad tiene murallas históricas:", opciones: ["Cartagena", "Santa Marta", "Barranquilla"], correcta: "Cartagena" },
+          { q: "🌲 Este lugar es conocido por su selva tropical:", opciones: ["Amazonas", "Guajira", "Boyacá"], correcta: "Amazonas" }
+        ]
+      }
+    };
+
+    let nivelActual = 0;
+    let indicePregunta = 0;
+    let puntaje = 0;
+    let respuestasCorrectas = [];
+
+    function iniciarNivel(nivel) {
+      nivelActual = nivel;
+      indicePregunta = 0;
+      puntaje = 0;
+      respuestasCorrectas = [];
+
+      document.getElementById("menuNiveles").style.display = "none";
+      document.getElementById("preguntaBox").style.display = "block";
+      mostrarPregunta();
+    }
+
+    function mostrarPregunta() {
+      const nivel = niveles[nivelActual];
+      const preguntaActual = nivel.preguntas[indicePregunta];
+      document.getElementById("tituloNivel").textContent = nivel.titulo;
+      document.getElementById("pregunta").textContent = preguntaActual.q;
+
+      const opcionesDiv = document.getElementById("opciones");
+      opcionesDiv.innerHTML = "";
+
+      preguntaActual.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => verificarRespuesta(opcion);
+        opcionesDiv.appendChild(btn);
+      });
+    }
+
+    function verificarRespuesta(opcionSeleccionada) {
+      const pregunta = niveles[nivelActual].preguntas[indicePregunta];
+      if (opcionSeleccionada === pregunta.correcta) {
+        puntaje++;
+        respuestasCorrectas.push(`✅ ${pregunta.q} → ${pregunta.correcta}`);
+      } else {
+        respuestasCorrectas.push(`❌ ${pregunta.q} → Correcta: ${pregunta.correcta}`);
+      }
+      indicePregunta++;
+
+      if (indicePregunta < niveles[nivelActual].preguntas.length) {
+        mostrarPregunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      document.getElementById("preguntaBox").style.display = "none";
+      const resultado = document.getElementById("resultado");
+      resultado.style.display = "block";
+      document.getElementById("puntajeFinal").textContent = `🏆 Tu puntaje: ${puntaje} / 5`;
+      document.getElementById("respuestasCorrectas").innerHTML = respuestasCorrectas.join("<br>");
+    }
+
+    function volverMenu() {
+      document.getElementById("resultado").style.display = "none";
+      document.getElementById("menuNiveles").style.display = "grid";
+    }
+  </script>
+</body>
+</html>
